@@ -1,7 +1,6 @@
 // HTMLドキュメントの読み込みが完了したら、中の処理を実行する
 document.addEventListener('DOMContentLoaded', () => {
 
-    // スクロールアニメーション用のObserverを、複数の関数から使えるように定義
     let scrollObserver;
 
     /**
@@ -82,7 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         },
 
-        // ===== 修正箇所 =====
         createFavoriteElement(fav) {
             const a = document.createElement('a');
             a.href = fav.url;
@@ -91,7 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
             a.className = 'card favorite-card fade-in-up';
             a.dataset.id = fav.id;
 
-            // ★ 修正: URLを表示していた <p> タグを削除
             a.innerHTML = `
                 <i class="fa-solid fa-link card-icon-small"></i>
                 <h4>${this.escapeHTML(fav.name)}</h4>
@@ -109,7 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             return a;
         },
-        // ====================
 
         setupSortable() {
             Sortable.create(this.list, {
@@ -312,12 +308,12 @@ document.addEventListener('DOMContentLoaded', () => {
             Sortable.create(this.container, {
                 animation: 150,
                 ghostClass: 'sortable-ghost',
-                handle: '.drag-handle', // ドラッグハンドルを指定
-                filter: '#widgets', // ウィジェットセクションは移動不可にする
+                handle: '.drag-handle',
+                filter: '#widgets',
                 onEnd: () => {
                     const newOrder = Array.from(this.container.children)
                         .map(item => item.id)
-                        .filter(id => id && id !== 'widgets'); // IDがあり、ウィジェットでないもの
+                        .filter(id => id && id !== 'widgets');
                     localStorage.setItem(this.storageKey, JSON.stringify(newOrder));
                 }
             });
@@ -514,39 +510,30 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
     
-    // ===== ★★★ 追加ここから ★★★ =====
     /**
      * ==================================
      * 機能9: ヘッダー検索アニメーション & Google検索
      * ==================================
      */
     const searchAnimationApp = {
-        searchWrapper: null,
-        bubbles: null,
-        sElement: null,
-        input: null,
+        searchWrapper: null, bubbles: null, sElement: null, input: null,
 
         init() {
             this.searchWrapper = document.querySelector('.header-search .search-wrapper');
             if (!this.searchWrapper) return;
-
             this.bubbles = this.searchWrapper.querySelectorAll('.bubble');
             this.sElement = this.searchWrapper.querySelector('.S');
-            
             this.input = document.createElement('input');
             this.input.type = 'text';
             this.input.className = 'inputSearch';
             this.input.placeholder = '_';
-
             this.addEventListeners();
             this.startBubblingAnimation();
         },
-
         addEventListeners() {
             this.searchWrapper.addEventListener('mouseover', () => this.handleMouseOver());
             this.searchWrapper.addEventListener('mouseout', () => this.handleMouseOut());
         },
-
         startBubblingAnimation(i = 0) {
             if (i < this.bubbles.length) {
                 setTimeout(() => {
@@ -555,12 +542,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 80);
             }
         },
-
         handleMouseOver() {
             this.bubbles[0].style = 'width: 350px; border-radius: 10px; z-index: 1;';
             this.bubbles[0].classList.remove('animate');
             this.sElement.style.color = '#333333';
-
             setTimeout(() => {
                 this.sElement.innerHTML = '';
                 this.bubbles[0].appendChild(this.input);
@@ -568,16 +553,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.input.addEventListener('keypress', this.handleSearch);
             }, 1000);
         },
-
         handleMouseOut() {
             this.bubbles[0].style = '';
             this.bubbles[0].classList.add('animate');
             this.sElement.style.color = '#4C83F0';
             this.input.value = '';
             this.input.style.zIndex = '-1';
-
             this.input.removeEventListener('keypress', this.handleSearch);
-
             setTimeout(() => {
                 if (this.bubbles[0].contains(this.input)) {
                     this.bubbles[0].removeChild(this.input);
@@ -585,20 +567,75 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.sElement.innerHTML = 'S';
             }, 1000);
         },
-
         handleSearch(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
                 const query = e.target.value.trim();
                 if (query) {
-                    // Google検索を新しいタブで開く
                     window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
                     e.target.value = '';
                 }
             }
         }
     };
-    // ===== ★★★ 追加ここまで ★★★ =====
+
+    /**
+     * ==================================
+     * ★ 機能10: セクション折りたたみ機能 (新規追加)
+     * ==================================
+     */
+    const sectionToggler = {
+        storageKey: 'portalSectionCollapseState',
+        sections: null,
+
+        init() {
+            this.sections = document.querySelectorAll('.sortable-section');
+            if (!this.sections.length) return;
+
+            this.applyInitialState();
+            this.addEventListeners();
+        },
+
+        applyInitialState() {
+            const collapsedState = JSON.parse(localStorage.getItem(this.storageKey));
+            // 初回訪問時 (localStorageにデータがない) は何もしない
+            if (collapsedState) {
+                this.sections.forEach(section => {
+                    if (collapsedState[section.id]) {
+                        section.classList.add('collapsed');
+                    }
+                });
+            }
+        },
+
+        addEventListeners() {
+            this.sections.forEach(section => {
+                const header = section.querySelector('h2');
+                if (header) {
+                    header.addEventListener('click', (e) => {
+                        // ドラッグハンドルや編集ボタンのクリックは除外
+                        if (e.target.closest('.drag-handle') || e.target.closest('.edit-title-btn')) {
+                            return;
+                        }
+                        this.toggleSection(section);
+                    });
+                }
+            });
+        },
+
+        toggleSection(section) {
+            section.classList.toggle('collapsed');
+            this.saveState();
+        },
+
+        saveState() {
+            const currentState = {};
+            this.sections.forEach(section => {
+                currentState[section.id] = section.classList.contains('collapsed');
+            });
+            localStorage.setItem(this.storageKey, JSON.stringify(currentState));
+        }
+    };
 
     // ==================================
     // 各機能の初期化・実行
@@ -611,6 +648,7 @@ document.addEventListener('DOMContentLoaded', () => {
     quickAccessApp.init();
     setupScrollAnimations();
     setupParticles();
-    searchAnimationApp.init(); // ★ 初期化を追加
+    searchAnimationApp.init();
+    sectionToggler.init(); // ★ 初期化を追加
 
 });
