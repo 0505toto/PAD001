@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>経理部ポータル</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style2.css">
 </head>
 <body>
 
@@ -15,13 +15,11 @@
             <a href="https://0505toto.github.io/PAD3/" class="home-button" title="ホーム">
                 <i class="fa-solid fa-house"></i>
             </a>
-
             <div class="title-container">
                 <h1><i class="fa-solid fa-landmark"></i> 経理部ポータル</h1>
                 <p>業務に必要な情報やツールをまとめました。</p>
                 <p class="update-info">更新日: 2025年7月15日 Ver.1.1</p>
             </div>
-
             <div class="header-search">
                 <div class="container">
                     <div class="search-wrapper">
@@ -48,10 +46,9 @@
             </div>
         </div>
     </header>
-    <div class="main-layout">
-        
-        <main id="main-container" class="container">
 
+    <div class="main-layout">
+        <main id="main-container" class="container">
             <section id="widgets" class="widget-section">
                 <div id="weather-widget" class="card">
                     <div class="card-header">
@@ -75,13 +72,13 @@
                         <i class="fa-solid fa-star"></i>
                         <span class="section-title">お気に入り</span>
                         <button class="edit-title-btn" title="タイトルを編集"><i class="fa-solid fa-pencil"></i></button>
+                        <i class="fa-solid fa-chevron-up toggle-icon"></i>
                     </h2>
                     <button id="add-favorite-btn" class="button-add" title="お気に入りを追加">
                         <i class="fa-solid fa-plus"></i>
                     </button>
                 </div>
-                <div id="favorites-list" class="card-grid-small">
-                    </div>
+                <div id="favorites-list" class="card-grid-small"></div>
             </section>
 
             <section id="schedule" class="sortable-section">
@@ -90,6 +87,7 @@
                     <i class="fa-solid fa-calendar-days"></i>
                     <span class="section-title">Schedule</span>
                     <button class="edit-title-btn" title="タイトルを編集"><i class="fa-solid fa-pencil"></i></button>
+                    <i class="fa-solid fa-chevron-up toggle-icon"></i>
                 </h2>
                 <div class="card-grid">
                     <a href="" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-calendar-week card-icon"></i><h3>年間業務</h3><p>年間の業務スケジュールを確認します。</p></a>
@@ -104,13 +102,13 @@
                     <i class="fa-solid fa-calculator"></i>
                     <span class="section-title">経理部専用ツール</span>
                     <button class="edit-title-btn" title="タイトルを編集"><i class="fa-solid fa-pencil"></i></button>
+                    <i class="fa-solid fa-chevron-up toggle-icon"></i>
                 </h2>
                 <div id="accounting-links-grid" class="card-grid-small">
                     <a href="https://business.getmoneytree.com/landing" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-tree card-icon-small"></i><h4>Moneytree</h4><p>各銀行の入出金管理</p></a>
                     <a href="https://plantec-kk.app.bill-one.com/recipient/accounting/invoices" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-file-invoice-dollar card-icon-small"></i><h4>Bill One</h4><p>請求書管理</p></a>
                     <a href="https://app.makeleaps.com/home/" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-file-signature card-icon-small"></i><h4>MakeLeaps</h4><p>請求書・注文請書作成</p></a>
                     <a href="https://rsphoto.rakurakuseisan.jp/yCiwuzXNzTa/" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-train-subway card-icon-small"></i><h4>楽楽精算</h4><p>経費・交通費精算</p></a>
-                    
                     <a href="https://0505toto.github.io/NetBankingportal/" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-building-columns card-icon-small"></i><h4>SPC NetBanking</h4><p>SPC関連の銀行サイト</p></a>
                     <a href="https://menu.a-saas.jp/" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-gears card-icon-small"></i><h4>A-saas</h4><p>SPC会計ソフト</p></a>
                     <a href="https://corporate.bk.mufg.jp/frontend/auth" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-yen-sign card-icon-small"></i><h4>main銀行</h4><p>三菱UFJ銀行 BizSTATION</p></a>
@@ -124,6 +122,7 @@
                     <i class="fa-solid fa-building"></i>
                     <span class="section-title">社内共通リンク</span>
                     <button class="edit-title-btn" title="タイトルを編集"><i class="fa-solid fa-pencil"></i></button>
+                    <i class="fa-solid fa-chevron-up toggle-icon"></i>
                 </h2>
                 <div id="company-links-grid" class="card-grid-small">
                     <a href="https://hz6n32v7pq52.cybozu.com/g/" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-shapes card-icon-small"></i><h4>Garoon</h4><p>社内ポータル</p></a>
@@ -140,6 +139,7 @@
                     <i class="fa-solid fa-brain"></i>
                     <span class="section-title">AIツール</span>
                     <button class="edit-title-btn" title="タイトルを編集"><i class="fa-solid fa-pencil"></i></button>
+                    <i class="fa-solid fa-chevron-up toggle-icon"></i>
                 </h2>
                 <div id="ai-tools-grid" class="card-grid-small">
                     <a href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-robot card-icon-small"></i><h4>ChatGPT</h4><p>AIアシスタント</p></a>
@@ -183,7 +183,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="script.js"></script>
+    <script src="script2.js"></script>
 
 </body>
 </html>
