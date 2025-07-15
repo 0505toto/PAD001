@@ -18,10 +18,10 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Noto Sans JP', sans-serif; background-color: var(--bg-color); color: var(--primary-text-color); line-height: 1.6; }
 
-/* ===== 修正箇所: ヘッダー & パーティクルエフェクト ===== */
+/* ===== ヘッダー & パーティクルエフェクト ===== */
 .site-header {
     position: relative;
-    padding: 20px 40px; /* 上下のパディングを調整 */
+    padding: 20px 40px;
     background: linear-gradient(135deg, var(--accent-color), #003f76);
     color: white;
     overflow: hidden;
@@ -41,7 +41,6 @@ body { font-family: 'Noto Sans JP', sans-serif; background-color: var(--bg-color
     justify-content: space-between;
     align-items: center;
 }
-/* ★追加: ホームボタン */
 .home-button {
     font-size: 2rem;
     color: white;
@@ -52,7 +51,6 @@ body { font-family: 'Noto Sans JP', sans-serif; background-color: var(--bg-color
     transform: scale(1.1);
     color: #ffdd40;
 }
-/* ★追加: タイトルコンテナ */
 .title-container {
     text-align: center;
 }
@@ -63,7 +61,6 @@ body { font-family: 'Noto Sans JP', sans-serif; background-color: var(--bg-color
     color: rgba(255, 255, 255, 0.85);
     margin-top: 15px;
 }
-/* ★追加: ヘッダー検索フォームのラッパー */
 .header-search {
     position: relative;
     width: 350px;
@@ -86,7 +83,6 @@ body { font-family: 'Noto Sans JP', sans-serif; background-color: var(--bg-color
     margin: 0 auto;
     padding: 40px 20px;
 }
-/* 検索フォームの .container との衝突を避けるため、メインコンテンツのコンテナはIDで指定 */
 #main-container {
     padding: 0;
     max-width: 100%;
@@ -100,6 +96,7 @@ section {
     padding: 25px;
     border-radius: 12px;
     box-shadow: 0 4px 15px var(--shadow-color);
+    transition: padding-bottom 0.5s ease;
 }
 #widgets {
     background-color: transparent;
@@ -109,16 +106,18 @@ section {
 .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 3px solid var(--border-color); padding-bottom: 10px; }
 h2 { font-size: 1.8rem; color: var(--accent-color); }
 section > h2 { margin-bottom: 25px; }
-#favorites .section-header, #widgets .section-header {
+#favorites .section-header {
     border-bottom: none;
     padding-bottom: 0;
     margin-bottom: 25px;
+}
+#favorites h2 {
+    width: 100%; /* ★修正: h2が幅全体に広がるように */
 }
 #favorites .section-header h2 {
     border-bottom: none;
     margin-bottom: 0;
 }
-
 
 /* ===== タイトル編集とセクション移動のスタイル ===== */
 h2[data-title-id] {
@@ -126,6 +125,8 @@ h2[data-title-id] {
     align-items: center;
     position: relative;
     gap: 0.7em;
+    cursor: pointer; /* ★追加: クリック可能であることを示す */
+    -webkit-tap-highlight-color: transparent; /* スマホでのタップ時のハイライトを消す */
 }
 .drag-handle {
     cursor: grab;
@@ -170,6 +171,41 @@ h2[data-title-id]:hover .edit-title-btn {
     transform: scale(1.1);
 }
 
+/* ===== ★追加: セクション折りたたみスタイル ===== */
+.toggle-icon {
+    margin-left: auto; /* アイコンを右端に配置 */
+    font-size: 1.2rem;
+    padding: 5px 10px;
+    color: #aab;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.sortable-section .card-grid,
+.sortable-section .card-grid-small {
+    display: grid; /* display: grid をここに移動 */
+    transition: max-height 0.5s ease-in-out, opacity 0.4s ease-in-out, margin-top 0.5s ease-in-out, visibility 0.5s;
+    overflow: hidden;
+    max-height: 2000px; /* 十分な高さを設定 */
+    opacity: 1;
+    visibility: visible;
+}
+.sortable-section.collapsed {
+    padding-bottom: 25px; /* 折りたたみ時もセクション自体のパディングは維持 */
+}
+.sortable-section.collapsed .card-grid,
+.sortable-section.collapsed .card-grid-small {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+    visibility: hidden;
+}
+.sortable-section.collapsed .toggle-icon {
+    transform: rotate(-180deg);
+}
+.sortable-section.collapsed h2[data-title-id] {
+    margin-bottom: 0;
+}
+
+
 /* ===== お気に入りセクションの文字色 ===== */
 #favorites-list .card h4,
 #favorites-list .card .card-icon-small {
@@ -178,7 +214,6 @@ h2[data-title-id]:hover .edit-title-btn {
 #favorites-list .card p {
     color: var(--secondary-text-color);
 }
-
 
 /* ===== アニメーション ===== */
 .card {
@@ -190,10 +225,9 @@ h2[data-title-id]:hover .edit-title-btn {
 
 /* ===== グリッドレイアウト ===== */
 .widget-section, .card-grid, .card-grid-small {
-    display: grid;
     gap: 25px;
 }
-.widget-section { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.widget-section { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); display: grid; }
 .card-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
 .card-grid-small { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
 
@@ -277,7 +311,6 @@ a.card:hover { transform: translateY(-8px) !important; box-shadow: 0 10px 25px r
 .card:hover .button-delete { opacity: 1; }
 .button-delete:hover { background: #f0f0f0; color: var(--danger-color); }
 .favorite-card p {
-    /* ★修正: お気に入りカード内のURLを非表示にする */
     display: none; 
 }
 
@@ -300,12 +333,12 @@ a.card:hover { transform: translateY(-8px) !important; box-shadow: 0 10px 25px r
 .site-footer { text-align: center; padding: 30px 20px; background-color: #333; color: white; }
 
 
-/* ===== ★追加: ヘッダー検索フォームのスタイル ===== */
+/* ===== ヘッダー検索フォームのスタイル ===== */
 .header-search p {
     font-family: 'Nunito', sans-serif;
     font-weight: 800;
     color: #f9f9f9;
-    margin: 0; /* 他のp要素への影響を防ぐ */
+    margin: 0;
 }
 .header-search #searchBox {
     position: absolute;
@@ -344,7 +377,7 @@ a.card:hover { transform: translateY(-8px) !important; box-shadow: 0 10px 25px r
 }
 .header-search .bubble {
     position: absolute;
-    display: flex; /* pタグを中央揃えにするため */
+    display: flex;
     justify-content: center;
     align-items: center;
     margin: 0 -3px;
@@ -382,13 +415,12 @@ a.card:hover { transform: translateY(-8px) !important; box-shadow: 0 10px 25px r
         position: static;
         max-height: none;
     }
-    /* ヘッダーのレイアウトを調整 */
     .header-content {
         flex-direction: column;
         gap: 20px;
     }
     .header-search {
-        order: -1; /* 検索フォームを一番上に */
+        order: -1;
     }
 }
 @media (max-width: 768px) {
